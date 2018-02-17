@@ -2,10 +2,12 @@ package ru.vsu.multithreading;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Exchanger;
 
- class Customer extends Thread {
+class Customer extends Thread {
      private int idd;
      boolean isServed;
+
 
      Customer(int idd){
          this.idd = idd;
@@ -23,11 +25,11 @@ import java.util.Random;
         chooseGoods();
         findDesk(Shop.getDeskList()).enqueue(this);
         while (!this.isServed){
-            try {
-             wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//             wait();
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
         gone();
 

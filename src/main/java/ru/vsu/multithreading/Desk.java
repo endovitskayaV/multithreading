@@ -3,15 +3,19 @@ package ru.vsu.multithreading;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.concurrent.Phaser;
 import java.util.stream.Collectors;
 
 class Desk extends Thread {
     private int idd;
     private Queue<Customer> queue;
+    //Phaser phaser;
 
     Desk(int idd){
         this.idd = idd;
         queue=new LinkedList<>();
+//        this.phaser=phaser;
+//        this.phaser.register();
     }
 
     Queue<Customer> getQueue() {
@@ -38,9 +42,10 @@ class Desk extends Thread {
                 e.printStackTrace();
             }
 
-            System.out.println("customer " + c.getIdd() + "payed at "+ idd + " desk...");
+            System.out.println("customer " + c.getIdd() + " payed at "+ idd + " desk...");
             c.isServed=true;
-            notify();
+           // notify();
+           // phaser.arriveAndDeregister();
         }
         run();
 
