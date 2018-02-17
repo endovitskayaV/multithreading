@@ -1,14 +1,13 @@
 package ru.vsu.multithreading;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class Shop {
-    static List<Desk> getDeskList() {
+    static ConcurrentSkipListSet<Desk> getDeskList() {
         return deskList;
     }
 
-    static void setDeskList(List<Desk> deskList1) {
+    static void setDeskList(ConcurrentSkipListSet<Desk> deskList1) {
         deskList.clear();
         deskList.addAll(deskList1);
     }
@@ -17,10 +16,11 @@ public class Shop {
         deskList.add(desk);
     }
 
-    private static List<Desk> deskList;
+    private static ConcurrentSkipListSet<Desk> deskList;
 
     static {
-        deskList = new ArrayList<>();
+        deskList = new ConcurrentSkipListSet<>();
     }
+
 
 }

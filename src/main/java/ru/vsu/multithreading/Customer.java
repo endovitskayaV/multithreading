@@ -2,8 +2,7 @@ package ru.vsu.multithreading;
 
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Exchanger;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 class Customer extends Thread {
      private int idd;
@@ -25,13 +24,7 @@ class Customer extends Thread {
         come();
         chooseGoods();
         findDesk(Shop.getDeskList()).enqueue(this);
-        while (!this.isServed){
-//            try {
-//             wait();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-        }
+        while (!this.isServed);
         gone();
 
     }
@@ -48,10 +41,9 @@ class Customer extends Thread {
         }
     }
 
-    private Desk findDesk(List<Desk> deskList) {
+    private Desk findDesk(ConcurrentSkipListSet<Desk> deskList) {
        for (Desk desk :deskList) {
            if (desk.getQueue().size() == 0) return desk;
-
        }
         int min = Integer.MAX_VALUE;
        Desk minDesk=new Desk(0);
