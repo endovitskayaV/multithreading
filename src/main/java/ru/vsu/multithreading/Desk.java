@@ -24,9 +24,7 @@ class Desk extends Thread {
 
     @Override
    public void run(){
-        while (queue.isEmpty()){
-           // System.out.println("desk " +idd+" empty");
-        }
+        while (queue.isEmpty());
         serve();
    }
 
