@@ -3,7 +3,7 @@ package ru.vsu.multithreading;
 import java.util.Random;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-class Customer extends Thread {
+class Customer implements Runnable {
      private int idd;
      volatile boolean isServed;
      private Shop shop;

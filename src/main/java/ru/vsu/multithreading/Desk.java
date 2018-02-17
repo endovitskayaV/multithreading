@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
-class Desk extends Thread implements Comparable<Desk>{
+class Desk  implements Runnable, Comparable<Desk>{
     private int idd;
     private ConcurrentLinkedQueue<Customer> queue;
 
