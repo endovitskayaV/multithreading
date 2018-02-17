@@ -1,17 +1,18 @@
 package ru.vsu.multithreading;
 
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentSkipListSet;
 
 class Customer extends Thread {
      private int idd;
-    volatile boolean isServed;
+     volatile boolean isServed;
+     private Shop shop;
 
 
-     Customer(int idd){
+     Customer(int idd, Shop shop){
          this.idd = idd;
          isServed=false;
+         this.shop=shop;
      }
 
      int getIdd() {
@@ -23,7 +24,7 @@ class Customer extends Thread {
     public void run() {
         come();
         chooseGoods();
-        findDesk(Shop.getDeskList()).enqueue(this);
+        findDesk(shop.getDeskList()).enqueue(this);
         while (!this.isServed);
         gone();
 
@@ -48,7 +49,10 @@ class Customer extends Thread {
         int min = Integer.MAX_VALUE;
        Desk minDesk=new Desk(0);
         for (Desk desk : deskList)
-        if (desk.getQueue().size()<min) minDesk = desk;
+        if (desk.getQueue().size()<min) {
+            minDesk = desk;
+            min=desk.getQueue().size();
+        }
 
         return minDesk;
     }

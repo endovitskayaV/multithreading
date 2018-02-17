@@ -1,22 +1,16 @@
 package ru.vsu.multithreading;
 
-import sun.security.krb5.internal.crypto.Des;
-
-import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 class Desk extends Thread implements Comparable<Desk>{
     private int idd;
     private ConcurrentLinkedQueue<Customer> queue;
-   private Semaphore semaphore;
 
     Desk(int idd) {
         this.idd = idd;
         queue = new ConcurrentLinkedQueue<>();
-        semaphore = new Semaphore(1, true);
     }
 
     ConcurrentLinkedQueue<Customer> getQueue() {
@@ -26,17 +20,11 @@ class Desk extends Thread implements Comparable<Desk>{
     @Override
     public void run() {
         while (queue.isEmpty()) ;
-
         serve();
 
     }
 
     private void serve() {
-//        try {
-//            semaphore.acquire();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
         while (!queue.isEmpty()) {
             Customer c = queue.peek();
             System.out.println("customer " + c.getIdd() + " is serving at " + idd + " desk...");
@@ -51,21 +39,12 @@ class Desk extends Thread implements Comparable<Desk>{
             System.out.println("customer " + c.getIdd() + " payed at " + idd + " desk...");
             c.isServed = true;
             queue.remove();
-            // notify();
-            // phaser.arriveAndDeregister();
         }
-       // semaphore.release();
         run();
 
     }
 
-    synchronized void enqueue(Customer customer) {
-//        try {
-//            semaphore.acquire();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
+    void enqueue(Customer customer) {
         String str="customer " + customer.getIdd() + " came at " + idd + " desk. "+
                 queue.size() + " customers in queue";
         if (queue.size() > 0)
@@ -74,7 +53,6 @@ class Desk extends Thread implements Comparable<Desk>{
                     +". Waiting...";
         System.out.println(str);
         this.queue.add(customer);
-      //  semaphore.release();
     }
 
     @Override
@@ -97,7 +75,7 @@ class Desk extends Thread implements Comparable<Desk>{
     @Override
     public int compareTo(Desk o) {
       if (this.equals(o)) return 0;
-      if (this.idd>((Desk)o).idd) return 1;
+      if (this.idd>o.idd) return 1;
       else return -1;
     }
 
