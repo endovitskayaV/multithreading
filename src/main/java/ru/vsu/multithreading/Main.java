@@ -3,7 +3,7 @@ package ru.vsu.multithreading;
 import java.util.concurrent.Phaser;
 
 public class Main {
-    private static final int customersNum=5;
+    private static final int customersNum=8;
     private static final int desksNum=2;
 
     public static void main(String[] args) {

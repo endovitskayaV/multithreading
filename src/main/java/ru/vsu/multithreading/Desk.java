@@ -32,11 +32,11 @@ class Desk extends Thread implements Comparable<Desk>{
     }
 
     private void serve() {
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            semaphore.acquire();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         while (!queue.isEmpty()) {
             Customer c = queue.peek();
             System.out.println("customer " + c.getIdd() + " is serving at " + idd + " desk...");
@@ -54,25 +54,27 @@ class Desk extends Thread implements Comparable<Desk>{
             // notify();
             // phaser.arriveAndDeregister();
         }
-        semaphore.release();
+       // semaphore.release();
         run();
 
     }
 
     synchronized void enqueue(Customer customer) {
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.print("customer " + customer.getIdd() + " came at " + idd + " desk. " +
-                queue.size() + " customers in queue: ");
-        System.out.print(
-                queue.parallelStream().map(x -> Integer.toString(x.getIdd())).collect(Collectors.joining(",")));
-        if (queue.size() > 0) System.out.println(". Waiting...");
-        else System.out.println("-. ");
+//        try {
+//            semaphore.acquire();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        String str="customer " + customer.getIdd() + " came at " + idd + " desk. "+
+                queue.size() + " customers in queue";
+        if (queue.size() > 0)
+            str+=": "+
+                    queue.parallelStream().map(x -> Integer.toString(x.getIdd())).collect(Collectors.joining(","))
+                    +". Waiting...";
+        System.out.println(str);
         this.queue.add(customer);
-        semaphore.release();
+      //  semaphore.release();
     }
 
     @Override
