@@ -3,10 +3,11 @@ package ru.vsu.multithreading;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Exchanger;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class Customer extends Thread {
      private int idd;
-     boolean isServed;
+    volatile boolean isServed;
 
 
      Customer(int idd){

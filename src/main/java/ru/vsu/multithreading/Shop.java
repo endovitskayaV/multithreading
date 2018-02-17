@@ -8,6 +8,11 @@ public class Shop {
         return deskList;
     }
 
+    static void setDeskList(List<Desk> deskList1) {
+        deskList.clear();
+        deskList.addAll(deskList1);
+    }
+
     static void addDesk(Desk desk) {
         deskList.add(desk);
     }
