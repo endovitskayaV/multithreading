@@ -24,16 +24,17 @@ class Desk extends Thread {
     @Override
    public void run(){
         while (queue.isEmpty());
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         serve();
-        semaphore.release();
+
    }
 
   private void serve(){
+      try {
+          semaphore.acquire();
+      } catch (InterruptedException e) {
+          e.printStackTrace();
+      }
         while(!queue.isEmpty()) {
             Customer c = queue.peek();
             System.out.println("customer " +c.getIdd() + " is serving at "+ idd + " desk...");
@@ -51,6 +52,7 @@ class Desk extends Thread {
            // notify();
            // phaser.arriveAndDeregister();
         }
+      semaphore.release();
         run();
 
    }
