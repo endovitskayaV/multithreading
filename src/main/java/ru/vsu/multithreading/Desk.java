@@ -1,23 +1,20 @@
 package ru.vsu.multithreading;
 
-import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Phaser;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 
 class Desk extends Thread {
     private int idd;
     private ConcurrentLinkedQueue<Customer> queue;
-    //Phaser phaser;
+    Semaphore semaphore;
 
     Desk(int idd){
         this.idd = idd;
         queue=new ConcurrentLinkedQueue<>();
-//        this.phaser=phaser;
-//        this.phaser.register();
+        semaphore =new Semaphore(1, true);
     }
 
     Queue<Customer> getQueue() {
@@ -27,7 +24,13 @@ class Desk extends Thread {
     @Override
    public void run(){
         while (queue.isEmpty());
+        try {
+            semaphore.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         serve();
+        semaphore.release();
    }
 
   private void serve(){
@@ -53,6 +56,11 @@ class Desk extends Thread {
    }
 
    synchronized void enqueue(Customer customer){
+       try {
+           semaphore.acquire();
+       } catch (InterruptedException e) {
+           e.printStackTrace();
+       }
        System.out.print("customer " +customer.getIdd() + " came at "+ idd + " desk. " +
                queue.size()+" customers in queue: ");
        System.out.print(
@@ -60,5 +68,6 @@ class Desk extends Thread {
        if (queue.size()>0) System.out.println(". Waiting...");
        else System.out.println("-. ");
        this.queue.add(customer);
+       semaphore.release();
    }
 }
