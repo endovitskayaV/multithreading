@@ -4,32 +4,40 @@ import java.util.List;
 import java.util.Random;
 
  class Customer extends Thread {
+     private int idd;
+     boolean isServed;
+
+     Customer(int idd){
+         this.idd = idd;
+         isServed=false;
+     }
 
      int getIdd() {
          return idd;
      }
 
-     private int idd;
-
-   Customer(int idd){
-       this.idd = idd;
-    }
 
     @Override
     public void run() {
         come();
         chooseGoods();
-        findDesk().enque(this);
-        //wait
+        findDesk(Shop.getDeskList()).enqueue(this);
+        while (!this.isServed){
+            try {
+             wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         gone();
 
     }
 
-    public void come() {
+    private void come() {
         System.out.println("customer " + idd + " came. choosing goods...");
     }
 
-    public void chooseGoods() {
+    private void chooseGoods() {
         try {
             Thread.sleep(5000 + new Random().nextInt(5) * 1000);
         } catch (InterruptedException e) {
@@ -37,7 +45,7 @@ import java.util.Random;
         }
     }
 
-    public Desk findDesk(List<Desk> deskList) {
+    private Desk findDesk(List<Desk> deskList) {
        for (Desk desk :deskList) {
            if (desk.getQueue().size() == 0) return desk;
 
@@ -50,7 +58,7 @@ import java.util.Random;
         return minDesk;
     }
 
-    public void gone() {
+    private void gone() {
         System.out.println("customer " + idd + "  is gone");
     }
 }
