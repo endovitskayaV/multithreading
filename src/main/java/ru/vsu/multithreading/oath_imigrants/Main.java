@@ -3,7 +3,7 @@ package ru.vsu.multithreading.oath_imigrants;
 public class Main {
     private static final int immigrantsNum =10;
     private static final int citizensNum =5;
-    private static final int desksNum =5;
+    private static final int desksNum =2;
 
     public static void main(String[] args) {
         for (int i=0; i<desksNum; i++) {

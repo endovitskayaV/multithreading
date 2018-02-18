@@ -16,18 +16,34 @@ public class Judge implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Utils.sleepRandomUpTo(20);
-
-            System.out.println("Судья хочет зайти в зал");
-            while (RegistersImmigration.immiNumInRoom < 1);
-            RegistersImmigration.isJudgeInRoom = true;
-            System.out.println("Судья зашел в зал и начал принимать присягу. Иммигрантов зале "
-                    + RegistersImmigration.immiNumInRoom
-                    + ", жителей в зале " + RegistersImmigration.citizNumInRoom);
-            Utils.sleepRandomUpTo(10);
-            while (RegistersImmigration.immiNumInRoom < RegistersImmigration.swearedImmiNumInRoom) ;
-            RegistersImmigration.isJudgeInRoom = false;
-            System.out.println("Судья закончил принимать присягу и покинул зал");
+            Utils.sleepRandomUpTo(40);
+            wannaCome();
+            while (RegistersImmigration.immiNumInRoom < 1 || RegistersImmigration.certificatedImmiNumInRoom!=0);
+            //RegistersImmigration.immiNumInRoom > RegistersImmigration.certificatedImmiNumInRoom);
+            came();
+            takeOath();
+            gone();
         }
+    }
+
+    private void wannaCome(){
+        System.out.println("Судья хочет зайти в зал");
+    }
+
+    private void came(){
+        RegistersImmigration.isJudgeInRoom = true;
+        System.out.println("Судья зашел в зал и начал принимать присягу. Иммигрантов зале "
+                + RegistersImmigration.immiNumInRoom
+                + ", жителей в зале " + RegistersImmigration.citizNumInRoom);
+
+    }
+
+    private void takeOath(){
+        Utils.sleepRandomUpTo(30);
+    }
+
+    private void gone(){
+        RegistersImmigration.isJudgeInRoom = false;
+        System.out.println("Судья закончил принимать присягу и покинул зал");
     }
 }
