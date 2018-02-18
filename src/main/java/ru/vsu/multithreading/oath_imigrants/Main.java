@@ -18,7 +18,7 @@ public class Main {
         for (int i = 0; i< citizensNum; i++)
             new Thread(new Citizen(i+1)).start();
 
-        new Thread(new Judge()).start();
+        new Thread(Judge.getInstance()).start();
   }
 
 }
