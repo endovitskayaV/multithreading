@@ -23,7 +23,7 @@ public class Immigrant implements Runnable {
         Utils.sleepRandomUpTo(30);
         wannaCome();
         while (RegistersImmigration.isJudgeInRoom ||
-                RegistersImmigration.immiNumInRoom >= RegistersImmigration.maxImiInRoom
+                (RegistersImmigration.immiNumInRoom >= RegistersImmigration.maxImiInRoom )
                 || RegistersImmigration.certificatedImmiNumInRoom!=0);
             come();
             while (!RegistersImmigration.isJudgeInRoom);

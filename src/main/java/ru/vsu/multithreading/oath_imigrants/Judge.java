@@ -16,7 +16,7 @@ public class Judge implements Runnable {
     @Override
     public void run() {
         while (true) {
-            Utils.sleepRandomUpTo(40);
+            Utils.sleepRandomUpTo(40)  ;
             wannaCome();
             while (RegistersImmigration.immiNumInRoom < 1 || RegistersImmigration.certificatedImmiNumInRoom!=0);
             //RegistersImmigration.immiNumInRoom > RegistersImmigration.certificatedImmiNumInRoom);

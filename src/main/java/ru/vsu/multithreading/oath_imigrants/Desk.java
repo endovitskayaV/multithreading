@@ -37,7 +37,7 @@ class Desk implements Runnable, Comparable<Desk> {
 
     }
 
-    void enqueue(Immigrant immigrant) {
+    synchronized void enqueue(Immigrant immigrant) {
         String str = "Иммигрант " + immigrant.getIdd() + " подошел к " + idd + " стойке. " +
                 queue.size() + " иммигрантов в очереди";
         if (queue.size() > 0)
