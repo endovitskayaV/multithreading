@@ -1,4 +1,5 @@
-package ru.vsu.multithreading;
+package ru.vsu.multithreading.oath_imigrants;
+
 
 import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -6,14 +7,14 @@ import java.util.stream.Collectors;
 
 class Desk  implements Runnable, Comparable<Desk>{
     private int idd;
-    private ConcurrentLinkedQueue<Customer> queue;
+    private ConcurrentLinkedQueue<Immigrant> queue;
 
     Desk(int idd) {
         this.idd = idd;
         queue = new ConcurrentLinkedQueue<>();
     }
 
-    ConcurrentLinkedQueue<Customer> getQueue() {
+    ConcurrentLinkedQueue<Immigrant> getQueue() {
         return queue;
     }
 
@@ -26,33 +27,27 @@ class Desk  implements Runnable, Comparable<Desk>{
 
     private void serve() {
         while (!queue.isEmpty()) {
-            Customer c = queue.peek();
-            System.out.println("customer " + c.getIdd() + " is serving at " + idd + " desk...");
-
-
-            try {
-                Thread.sleep(2000 + new Random().nextInt(5) * 1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            System.out.println("customer " + c.getIdd() + " payed at " + idd + " desk...");
-            c.isServed = true;
+          Immigrant immigrant = queue.peek();
+            System.out.println("Immigrant " + immigrant.getIdd() + " is serving at " + idd + " desk...");
+            Utils.sleepRandomUpTo(10);
+            System.out.println("Immigrant " + immigrant.getIdd() + " got certificate at " + idd + " desk...");
+            immigrant.hasSweared = true;
+            RegistersImmigration.swearedImmiNumInRoom++;
             queue.remove();
         }
         run();
 
     }
 
-    void enqueue(Customer customer) {
-        String str="customer " + customer.getIdd() + " came at " + idd + " desk. "+
+    void enqueue(Immigrant immigrant) {
+        String str="customer " + immigrant.getIdd() + " came at " + idd + " desk. "+
                 queue.size() + " customers in queue";
         if (queue.size() > 0)
             str+=": "+
                     queue.parallelStream().map(x -> Integer.toString(x.getIdd())).collect(Collectors.joining(","))
                     +". Waiting...";
         System.out.println(str);
-        this.queue.add(customer);
+        this.queue.add(immigrant);
     }
 
     @Override
@@ -64,19 +59,19 @@ class Desk  implements Runnable, Comparable<Desk>{
             return false;
         }
 
-        Desk desk = (Desk) obj;
+       Desk desk = (Desk) obj;
         return idd == desk.idd;
     }
     @Override
     public int hashCode() {
-         return  31 * idd;
+        return  31 * idd;
     }
 
     @Override
     public int compareTo(Desk o) {
-      if (this.equals(o)) return 0;
-      if (this.idd>o.idd) return 1;
-      else return -1;
+        if (this.equals(o)) return 0;
+        if (this.idd>o.idd) return 1;
+        else return -1;
     }
 
 }
